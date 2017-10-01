@@ -7,6 +7,7 @@
   const cookieParser = require('cookie-parser');
   const bodyParser = require('body-parser');
   const session = require('express-session');
+  const passport = require('passport');
   const flash = require('connect-flash');
   const morgan = require('morgan');
   const nunjucks = require('nunjucks');
@@ -36,11 +37,13 @@
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     // // uncomment if using express-session
-    // app.use(session({
-    //   secret: process.env.SECRET_KEY,
-    //   resave: false,
-    //   saveUninitialized: true
-    // }));
+    app.use(session({
+      secret: process.env.SECRET_KEY,
+      resave: false,
+      saveUninitialized: true
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
     app.use(flash());
     app.use(express.static(path.join(__dirname, '..', '..', 'client')));
 
